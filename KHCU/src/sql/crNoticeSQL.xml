@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
+<sqlMap>
+
+	<select id="getArticleCountCrNotice" resultClass="int" parameterClass="String">
+		select count(*) from $classNotice$
+	</select>
+	
+	<select id="getArticlesCrNotice" resultClass="classRoom.ClassNoticeDataBean" parameterClass="java.util.Map">
+		select num,classcode,category, title,content,reg_date,readcount,r 
+		from (select num,classcode,category, title,content,reg_date,readcount,rownum r 
+		from (select num,classcode,category, title,content,reg_date,readcount
+		from $classNotice$ order by num desc) order by num desc) where r>=#startRow# and <![CDATA[r<=#endRow#]]> 
+	</select>
+
+	<insert id="insertArticleCrNotice" parameterClass="classRoom.ClassNoticeDataBean">
+		insert into $classNotice$(num, classcode,category,title,content,reg_date,readcount) 
+		values($classNotice$_seq.NEXTVAL,#classcode#,#category#,#title#,#content#,#reg_date#,#readcount#)
+	</insert>
+
+	<select id="numCheckCrNotice" resultClass="String" parameterClass="classRoom.ClassNoticeDataBean">
+		select max(num) from $classNotice$
+	</select>
+	
+	<update id="getArticleUpdateCrNotice" parameterClass="classRoom.ClassNoticeDataBean">
+		update $classNotice$ set readcount=readcount+1 where num=#num#
+	</update>
+	
+	<select id="getArticleSelectCrNotice" resultClass="classRoom.ClassNoticeDataBean" parameterClass="classRoom.ClassNoticeDataBean">
+		select * from $classNotice$ where num=#num#
+	</select>
+	
+	<select id="updateGetArticleCrNotice" resultClass="classRoom.ClassNoticeDataBean" parameterClass="classRoom.ClassNoticeDataBean">
+		select * from $classNotice$ where num =#num#
+	</select>
+	
+	<update id="updateArticleCrNotice" parameterClass="classRoom.ClassNoticeDataBean">
+		update $classNotice$ set category=#category#,title=#title#,content=#content# where num=#num#
+	</update>
+	
+	<delete id="deleteArticleCrNotice" parameterClass="classRoom.ClassNoticeDataBean">
+		delete from $classNotice$ where num=#num#
+	</delete>
+	
+</sqlMap>

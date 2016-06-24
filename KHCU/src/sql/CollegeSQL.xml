@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
+<sqlMap>
+	
+	<select id="getArticleCountCollege" resultClass="int">
+		select count(*) from college
+	</select>
+
+	<select id="getArticlesCollege" resultClass="College.CollegeDataBean" parameterClass="java.util.Map">
+		select colName,colCode,majName,majCode,r 
+		from (select colName,colCode,majName,majCode,rownum r 
+		from (select colName,colCode,majName,majCode
+		from college order by colCode asc,majCode asc) order by r) where r>=#startRow# and <![CDATA[r<=#endRow#]]> 
+	</select>
+	
+	<select id="majNameCheckCollege" resultClass="int" parameterClass="College.CollegeDataBean">
+		select count(*) from college where majName=#majName#
+	</select>
+	
+	<select id="majCodeCheckCollege" resultClass="String" parameterClass="College.CollegeDataBean">
+		select max(majCode) from college where colCode=#colCode#
+	</select>
+	
+	<insert id="insertArticleCollege" parameterClass="College.CollegeDataBean">
+		insert into college(colName,colCode,majName,majCode) 
+		values(#colName#,#colCode#,#majName#,#majCode#)
+	</insert>
+
+	<delete id="deleteArticleCollege" parameterClass="College.CollegeDataBean">
+		delete from college where majCode=#majCode#
+	</delete>
+	
+</sqlMap>

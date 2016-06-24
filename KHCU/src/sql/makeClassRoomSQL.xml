@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
+<sqlMap>
+	<!-- 강의실 생성 -->
+	<insert id="makeClassRoom" parameterClass="String">
+		CREATE table $ClassRoom$(
+			classCode varchar2(100),
+			pfNum varchar2(100),
+			classtime varchar2(100)
+		)
+	</insert>
+	
+	<!-- 녹화강의 강의장 
+	reference : 참고자료
+	file : 영상 -->
+	<insert id="makeClassListenRoom" parameterClass="String">
+		CREATE table $classListenRoom$(
+			num varhcar2(100),
+			week varhcar2(100),
+			startdate varhcar2(100),
+			enddate varhcar2(100),
+			classcode varhcar2(100),
+			classtitle varhcar2(100),
+			content varhcar2(100),
+			filename varhcar2(100),
+			filepath varhcar2(100),
+			referencename varhcar2(400),
+			referencepath varhcar2(400),
+			reg_date date
+		)
+	</insert>
+	
+	<!-- 라이브강의 강의장
+	reference : 녹화자료
+	-->
+	<insert id="makeClassListenRoom2" parameterClass="String">
+		CREATE table $classListenRoom$(
+			classcode varchar2(100),
+			lecture_start date,
+			lecture_end date,
+			referencename varchar2(100) default 0,
+			referencepath varchar2(100) default 0,
+			primary key(classcode, lecture_start, lecture_end)
+		)
+	</insert>
+	
+	<select id="getClassTimeMake" parameterClass="String" resultClass="String">
+		select classtype from classes where classcode=#classcode#
+	</select>
+	
+	<!-- 강의실 과제 -->
+	<insert id="makeClassHomework" parameterClass="String">
+		CREATE table $classHomework$(
+			type varchar2(100) primary key,
+			classcode varchar2(100),
+			title varchar2(100),
+			content varchar2(100),
+			end_date number,
+			reference_name varchar2(400),
+			reference_path varchar2(400),
+			reg_date Date,
+			readcount number
+		)
+	</insert>
+	
+	<!-- 과제제출 -->
+	<insert id="makeClassHomeworkSubmit" parameterClass="String">
+		CREATE table $classSubmitHomework$(
+			classcode varchar2(100),
+			studentnum varchar2(100),
+			hwscore varchar2(100) default 0,
+			type varchar2(100),
+			title varchar2(100),
+			submit_name varchar2(400),
+			submit_path varchar2(400),
+			reg_date Date,
+			primary key(studentnum, type)
+		)
+	</insert>
+	
+	<insert id="makeClassHomeworkSEQ" parameterClass="String">
+		CREATE sequence $classHomework$_seq
+	</insert>
+
+	<!-- 공지사항 -->
+	<insert id="makeClassNotice" parameterClass="String">
+		CREATE TABLE $classNotice$(
+		    num number primary key,
+		    classcode varchar2(100),
+		    category varchar2(100),
+		    title varchar2(100),
+		    content varchar2(400),
+		    reg_date date,
+		    readcount number
+		)
+	</insert>
+	
+	<insert id="makeClassNoticeSEQ" parameterClass="String">
+		CREATE sequence $classNotice$_seq
+	</insert>
+
+
+	<!-- QnA -->
+	<insert id="makeClassQnA" parameterClass="String">
+		CREATE TABLE $classQnA$(
+		    num number primary key,
+		    classcode varchar2(100),
+		    writer varchar2(100),
+		    title varchar2(100),
+		    content varchar2(100),
+		    passwd varchar2(100),
+		    reg_date date,
+		    readcount number,
+		    ref number,
+		    re_step number,
+		    re_level number
+		)
+	</insert>
+	
+	<insert id="makeClassQnASEQ" parameterClass="String">
+		CREATE sequence $classQnA$_seq
+	</insert>
+	
+	<!-- 출석 체크-->
+	<insert id="makeCheckAttend" parameterClass="String">
+		CREATE TABLE $attendCheck$(
+		classcode varchar2(100),
+		stnum varchar2(100),
+		entrance_date date,
+		attendcheck varchar2(100) default 'x',
+		end_check varchar2(100) default 'x'	
+		)
+	</insert>
+	
+	<!-- 출석 체크 메시지함 -->
+	<insert id="makeAttendMessage" parameterClass="String">
+		create table $attendMessage$(
+ 		   	stnum varchar2(100),
+    		classcode varchar2(100),
+    		recMessage varchar2(100),
+    		rec_time date,
+    		check_num number
+		)
+	</insert>
+</sqlMap>

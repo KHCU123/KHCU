@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
+<sqlMap>
+
+	<select id="getArticleCountComNotice" resultClass="int">
+		select count(*) from comNotice
+	</select>
+	
+	<select id="getArticlesComNotice" resultClass="Community.ComNotice.ComNoticeDataBean" parameterClass="java.util.Map">
+		select num,category,title,content,reg_date,readcount,r 
+		from (select num,category,title,content,reg_date,readcount,rownum r 
+		from (select num,category,title,content,reg_date,readcount
+		from comNotice order by num desc) order by num desc) where r>=#startRow# and <![CDATA[r<=#endRow#]]> 
+	</select>
+
+	<insert id="insertArticleComNotice" parameterClass="Community.ComNotice.ComNoticeDataBean">
+		insert into comNotice(num,category,title,content,reg_date,readcount) 
+		values(comNotice_seq.NEXTVAL,#category#,#title#,#content#,#reg_date#,#readcount#)
+	</insert>
+
+	<select id="numCheckComNotice" resultClass="String">
+		select max(num) from comNotice
+	</select>
+	
+	<update id="getArticleUpdateComNotice" parameterClass="Community.ComNotice.ComNoticeDataBean">
+		update comNotice set readcount=readcount+1 where num=#num#
+	</update>
+	
+	<select id="getArticleSelectComNotice" resultClass="Community.ComNotice.ComNoticeDataBean" parameterClass="Community.ComNotice.ComNoticeDataBean">
+		select * from comNotice where num=#num#
+	</select>
+	
+	<select id="updateGetArticleComNotice" resultClass="Community.ComNotice.ComNoticeDataBean" parameterClass="Community.ComNotice.ComNoticeDataBean">
+		select * from comNotice where num =#num#
+	</select>
+	
+	<update id="updateArticleComNotice" parameterClass="Community.ComNotice.ComNoticeDataBean">
+		update comNotice set category=#category#,title=#title#,content=#content# where num=#num#
+	</update>
+	
+	<delete id="deleteArticleComNotice" parameterClass="Community.ComNotice.ComNoticeDataBean">
+		delete from comNotice where num=#num#
+	</delete>
+	
+</sqlMap>

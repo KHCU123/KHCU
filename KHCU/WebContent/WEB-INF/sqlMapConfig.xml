@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+<sqlMapConfig>
+	
+	<settings useStatementNamespaces="false" />
+	
+	<sqlMap resource="/sql/classesSQL.xml"/>
+	<sqlMap resource="/sql/CollegeSQL.xml"/>
+	<sqlMap resource="/sql/ComJobSQL.xml"/>
+	<sqlMap resource="/sql/ComNoticeSQL.xml"/>
+	<sqlMap resource="/sql/MainSQL.xml"/>
+	<sqlMap resource="/sql/professorSQL.xml"/>
+	<sqlMap resource="/sql/StaffCardSQL.xml"/>
+	<sqlMap resource="/sql/studentSQL.xml"/>
+	<sqlMap resource="/sql/attendanceBookSQL.xml"/>
+	<sqlMap resource="/sql/webMemoSQL.xml"/>
+	<sqlMap resource="/sql/classHomeworkSQL.xml"/>
+	<sqlMap resource="/sql/makeClassRoomSQL.xml"/>
+	<sqlMap resource="/sql/crNoticeSQL.xml"/>
+	<sqlMap resource="/sql/classQnASQL.xml"/>
+	<sqlMap resource="/sql/checkAttendSQL.xml"/>
+	<sqlMap resource="/sql/classRoomSQL.xml"/>
+	<sqlMap resource="/sql/StudyRoomSQL.xml"/>
+	
+</sqlMapConfig>

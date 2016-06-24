@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
+<sqlMap>
+	<insert id="insertCrVideo" parameterClass="classRoom.CrListenDataBean">
+		insert into crListen values(
+		#num#,
+		#week#,
+		#startdate#,
+		#enddate#,
+		#classcode#,
+		#classtitle#,
+		#content#,
+		#filename#,
+		#filepath#,
+		#referencename#,
+		#referencepath#,
+		#reg_date#
+	</insert>
+	
+	<select id="numCheckCrVideo" resultClass="String">
+		select max(num) from crListen
+	</select>
+	
+	<select id="getClassInfo" resultClass="Classes.ClassDataBean" parameterClass="String">
+		select * from classes where classcode=#classcode#
+	</select>
+	
+	<select id="getClassName" resultClass="String" parameterClass="String">
+		select classname from classes where classcode=#classcode#
+	</select>
+	
+	<select id="getStudentName" resultClass="String" parameterClass="String">
+		select stname from studentcard where studentnum=#studentnum#
+	</select>
+	
+	<select id="getClassContent" resultClass="classRoom.CrListenDataBean" parameterClass="java.util.HashMap">
+		select * from crListen where classcode=#classcode# and week=#week#
+	</select>
+	
+	<update id="updateCrListen" parameterClass="classRoom.CrListenDataBean">
+		update crListen set num=#num#, 
+		week=#week#,
+		startdate=#startdate#,
+		enddate=#enddate#,
+		classcode=#classcode#,
+		classtitle=#classtitle#,
+		content=#content#,
+		filename=#filename#, 
+		filepath=#filepath#, 
+		referencename=#referencename#, 
+		referencepath=#referencepath#, 
+		reg_date=#reg_date# 
+		where classcode=#classcode# and week=#week#
+	</update>
+	
+</sqlMap>

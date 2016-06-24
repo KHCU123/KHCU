@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
+<sqlMap>
+
+	<select id="getArticleCountComJob" resultClass="int">
+		select count(*) from comJob
+	</select>
+	
+	<select id="getArticlesComJob" resultClass="Community.ComJob.ComJobDataBean" parameterClass="java.util.Map">
+		select num,category,title,content,reg_date,readcount,r 
+		from (select num,category,title,content,reg_date,readcount,rownum r 
+		from (select num,category,title,content,reg_date,readcount
+		from comJob order by num desc) order by num desc) where r>=#startRow# and <![CDATA[r<=#endRow#]]> 
+	</select>
+
+	<insert id="insertArticleComJob" parameterClass="Community.ComJob.ComJobDataBean">
+		insert into comJob(num,category,title,content,reg_date,readcount) 
+		values(comJob_seq.NEXTVAL,#category#,#title#,#content#,#reg_date#,#readcount#)
+	</insert>
+
+	<select id="numCheckComJob" resultClass="String">
+		select max(num) from comJob
+	</select>
+	
+	<update id="getArticleUpdateComJob" parameterClass="Community.ComJob.ComJobDataBean">
+		update comJob set readcount=readcount+1 where num=#num#
+	</update>
+	
+	<select id="getArticleSelectComJob" resultClass="Community.ComJob.ComJobDataBean" parameterClass="Community.ComJob.ComJobDataBean">
+		select * from comJob where num=#num#
+	</select>
+	
+	<select id="updateGetArticleComJob" resultClass="Community.ComJob.ComJobDataBean" parameterClass="Community.ComJob.ComJobDataBean">
+		select * from comJob where num =#num#
+	</select>
+	
+	<update id="updateArticleComJob" parameterClass="Community.ComJob.ComJobDataBean">
+		update comJob set category=#category#,title=#title#,content=#content# where num=#num#
+	</update>
+	
+	<delete id="deleteArticleComJob" parameterClass="Community.ComJob.ComJobDataBean">
+		delete from comJob where num=#num#
+	</delete>
+	
+</sqlMap>

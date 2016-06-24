@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
+<sqlMap>
+
+	<!-- 학생카드 조회 -->	
+	<select id="studentCard" resultClass="studentInfo.StudentDataBean" parameterClass="String">
+		select * from studentcard where studentnum=#studentnum#
+	</select>
+	<!-- 학생카드 수정 -->
+	<update id="studentUpdate" parameterClass="studentInfo.StudentDataBean">
+		update studentcard set 
+			ststate=#ststate#, 
+			stphone=#stphone#, 
+			stemail=#stemail#, 
+			staddress1=#staddress1#, 
+			stpostcode=#stpostcode#, 
+			staddress2=#staddress2#, 
+			stfacebook=#stfacebook# where studentnum=#studentnum#
+	</update>
+	<!-- 학생 등록 -->
+	<insert id="studentInput" parameterClass="studentInfo.StudentDataBean">
+		insert into studentcard values(
+			#studentnum#,
+			#pw#,
+			#stname#,
+			#stjumin1#,
+			#stjumin2#,
+			#staddress1#,
+			#staddress2#,
+			#stpostcode#,
+			#stphone#,
+			#stcollege#,
+			#stmajor#,
+			#stminor#,
+			#stgrade#,
+			#ststate#,
+			#stsemester#,
+			#stemail#,
+			#stfacebook#,
+			#stprofilename#,
+			#stprofilepath#,
+			sysdate
+		)
+	</insert>	
+	<!-- 학생 등록 시 학점관리 생성 -->
+	<insert id="InsertStCredit" parameterClass="java.util.HashMap">
+		insert into stcredit values(
+			#studentnum#,
+			0,
+			20,
+			0,
+			0,
+			180,
+			0,
+			0
+		)
+	</insert>
+	<!-- 학생등록 대학교 코드 검색 -->
+	<select id="collegeCategory" resultClass="College.CollegeDataBean">
+		select distinct colcode, colname from college order by colcode asc
+	</select>
+	<!-- 학생등록 학과 코드  조회 -->
+	<select id="collegeCategory2" resultClass="College.CollegeDataBean" parameterClass="String">
+		select * from college where colcode=(select distinct(colcode) from college where colname=#colName# ) order by colcode asc
+	</select>
+	<!-- 학번생성 단계1 -->
+	<select id="studentNum1" resultClass="int" parameterClass="String">
+		select distinct colcode from college where colname=#colname#
+	</select> 
+	<!-- 학번생성 단계2 -->
+	<select id="studentNum2" resultClass="int" parameterClass="String">
+		select distinct majcode from college where majname=#majname#
+	</select> 
+	<!-- 학번 중복체크 -->
+	<select id="checkStudnetNum" resultClass="int" parameterClass="String">
+		select count(studentnum) from studentcard where studentnum in #studentnum# 
+	</select>
+	<!-- 학번생성 단계3 -->
+	<select id="checkStudentNum2" resultClass="int" parameterClass="String">
+		select substr(studentnum,-4) from studentcard where studentnum in #studentnum#
+	</select>
+	<!-- 학번생성 단계4 -->
+	<select id="checkStudnetNum3" resultClass="int" parameterClass="int">
+		select studentnum from studentcard where studentnum in #studentnum# 
+	</select>
+	<!-- 학생리스트 조회 -->
+	<select id="getArticleCountStudent" resultClass="int">
+		select count(*) from studentcard
+	</select>
+	<select id="getArticlesStudent" resultClass="studentInfo.StudentDataBean" parameterClass="java.util.Map">
+		select studentnum,stname,stcollege,stmajor,stminor,stgrade,stsemester,ststate,r
+		from (select studentnum,stname,stcollege,stmajor,stminor,stgrade,stsemester,ststate,rownum r 
+		from (select studentnum,stname,stcollege,stmajor,stminor,stgrade,stsemester,ststate
+		from studentcard order by studentnum asc) order by r) where r>=#startRow# and <![CDATA[r<=#endRow#]]> 
+	</select>
+	<update id="studentAdminUpdate" parameterClass="studentInfo.StudentDataBean">
+		update studentcard set
+			pw=#pw#,
+			stname=#stname#,
+			stpostcode=#stpostcode#,
+			staddress1=#staddress1#,
+			staddress2=#staddress2#,
+			stphone=#stphone#,
+			stcollege=#stcollege#,
+			stmajor=#stmajor#,
+			stminor=#stminor#,
+			stgrade=#stgrade#,
+			ststate=#ststate#,
+			stsemester=#stsemester#,
+			stemail=#stemail#,
+			stfacebook=#stfacebook#,
+			stprofilename=#stprofilename#,
+			stprofilepath=#stprofilepath# where studentnum=#studentnum#			
+	</update>
+	<delete id="deleteArticleStuddent" parameterClass="studentInfo.StudentDataBean">
+		delete from studentcard where studentnum=#studentnum#
+	</delete>
+	<!-- 수강신청하기 -->
+	<select id="stCredit" resultClass="studentInfo.StCredit" parameterClass="String">
+		select * from stcredit where studentnum=#studentnum#
+	</select>
+	<select id="getArticleStClasses" resultClass="Classes.ClassDataBean" parameterClass="java.util.Map">
+      select classCode,classType,classTime,className,pfName,maxNum,semester,credit,college,major,classGrade,plan_score,plan_goal,people,r 
+      from (select classCode,classType,classTime,className,pfName,maxNum,semester,credit,college,major,classGrade,plan_score,plan_goal,people,rownum r 
+      from (select classCode,classType,classTime,className,pfName,maxNum,semester,credit,college,major,classGrade,plan_score,plan_goal,people
+      from classes order by className) order by className ) where r>=#startRow# and <![CDATA[r<=#endRow#]]> 
+	</select>
+   	<select id="getArticleStClassesCount" resultClass="int" parameterClass="Classes.ClassDataBean">
+   		select count(*) from classes 
+   	</select>
+   	<select id="classCredit" resultClass="int" parameterClass="String">
+   		select credit from classes where classcode=#classcode#
+   	</select>
+   	<select id="appCredit" resultClass="int" parameterClass="String">
+   		select applicredit from stcredit where studentnum=#studentnum#
+   	</select>
+   	<select id="poappCredit" resultClass="int" parameterClass="String">
+   		select poapplicredit from stcredit where studentnum=#studentnum#
+   	</select>
+   	<select id="stCreditAll" resultClass="int" parameterClass="String">
+   		select * from stcredit
+   	</select>   	
+	<insert id="getArticleRegisterInto" parameterClass="java.util.HashMap">
+		insert into registerclass values(
+			#stclasscode#,
+			#studentnum#,
+			#classcode#,
+			sysdate
+			)
+	</insert>	
+   	<update id="appStCredit" parameterClass="studentInfo.StCredit">
+   		update StCredit set 
+   			appliCredit= #appliCredit# where studentnum=#studentnum#
+   	</update>
+   	<update id="appStCredit2" parameterClass="java.util.HashMap">
+   		update stcredit set 
+   			applicredit=#applicredit# - #credit# where studentnum=#studentnum#
+   	</update>
+	<update id="peopleClasses" parameterClass="int">
+		update classes set
+			people=#people# +1
+	</update>
+	<!-- 성적조회 -->
+	<select id="getArticleCountStudentScore" resultClass="int" parameterClass="String">
+		select count(*) from studentscore where studentnum=#studentnum#
+	</select>
+	<!-- 성적 리스트 출력 -->
+	<select id="getArticleStudentScore" resultClass="studentInfo.StudentScore" parameterClass="String">
+		select studentnum,year,semester,classname,credit,score,r 
+		from (select studentnum,year,semester,classname,credit,score,rownum r 
+		from (select studentnum,year,semester,classname,credit,score
+		from studentscore) order by r) where studentnum=#studentnum#
+	</select>
+	<!-- 성적조회 -->
+	<select id="studentScore" resultClass="studentInfo.StudentScore" parameterClass="java.util.HashMap">
+		select * from studentscore where studentnum=#studentnum# and year=#year# and semester=#semester#
+	</select>
+	<!-- 이번학기 신청학점 -->
+	<select id="getThisSemester" resultClass="int" parameterClass="String">
+		select APPLICREDIT from stcredit where studentnum=#studentnum#
+	</select>
+	<!-- 이번학기 획득학점 -->
+	<select id="getTakeSemester" resultClass="int" parameterClass="java.util.HashMap">
+		select count(credit) from studentscore where studentnum=#studentnum# and year=#year# and semester=#semester# and score != 'F' <!-- 수정 -->
+	</select>
+	<!-- 이번학기 획득학점 -->
+	<select id="takeSemester" resultClass="int" parameterClass="java.util.HashMap">
+		select sum(credit) from studentscore where studentnum=#studentnum# and year=#year# and semester=#semester# and score != 'F' <!-- 수정 -->
+	</select>
+	<!-- 전체학기 획득학점 -->
+	<select id="CountgetSemester" resultClass="int" parameterClass="String">
+		select count(COMPCREDIT) from stcredit where studentnum=#studentnum#
+	</select>
+	<select id="getSemester" resultClass="int" parameterClass="String">
+		select COMPCREDIT from stcredit where studentnum=#studentnum#
+	</select>
+	<!-- 전체학기 성적조회 -->
+	<select id="studentAllScore" resultClass="studentInfo.StudentScore" parameterClass="String">
+		select * from studentscore where studentnum=#studentnum#
+	</select>
+	<!-- 휴학 신청 -->
+	<insert id="insertHuhak" parameterClass="studentInfo.StHuehakDataBean">
+		insert into huhak values(
+			#studentnum#,
+			#type#,
+			#period#,
+			#reason#,
+			#permit#,
+			sysdate
+		)		
+	</insert>
+	<!-- 휴학 신청 -->
+	<select id="getArticleCountStHuhak" resultClass="int" parameterClass="String">
+		select count(*) from huhak where studentnum=#studentnum#
+	</select>
+	<!-- 휴학 신청내역 -->
+	<select id="stHuhak" resultClass="studentInfo.StHuehakDataBean" parameterClass="String">
+		select * from huhak where studentnum=#studentnum#
+	</select>
+	<!-- 복학 신청 -->
+	<insert id="insertBokhak" parameterClass="studentInfo.StBokhakDataBean">
+		insert into bokhak values(
+			#studentnum#,
+			#permit#,
+			sysdate
+		)		
+	</insert>
+	<select id="checkBokhak" resultClass="int" parameterClass="String">
+		select count(*) from bokhak where studentnum=#studentnum#
+	</select>
+	<select id="stBokhak" resultClass="studentInfo.StBokhakDataBean" parameterClass="String">
+		select * from bokhak where studentnum=#studentnum#
+	</select>
+	<!-- 등록금 고지서 -->
+	<select id="StTuition" resultClass="studentInfo.StTuitionDataBean" parameterClass="int">
+		select * from tuition where num=#num#
+	</select>
+	<select id="Tuition" resultClass="studentInfo.StTuitionDataBean" parameterClass="java.util.HashMap">
+		select * from tuition where college=#stcollege# and major=#stmajor#
+	</select>
+	<select id="getArticleCountStTuition" resultClass="int">
+		select count(*) from tuition
+	</select>
+	<select id="getArticlesStTuition" resultClass="studentInfo.StTuitionDataBean" parameterClass="java.util.Map">
+		select num,year,semester,college,major,money,r
+		from (select num,year,semester,college,major,money,rownum r
+		from (select num,year,semester,college,major,money
+		from tuition order by year asc,semester asc) order by r) where r>=#startRow# and <![CDATA[r<=#endRow#]]>
+	</select>
+	<insert id="stTuitionInput" parameterClass="studentInfo.StTuitionDataBean">
+		insert into tuition values(
+			tuition_sequence.nextval,
+			#year#,
+			#semester#,
+			#college#,
+			#major#,
+			#money#
+		)
+	</insert>
+	<update id="stTuitionUpdate" parameterClass="studentInfo.StTuitionDataBean">
+		update tuition set 
+			money=#money# where num=#num#
+	</update>
+	<delete id="stTuitionDelete" parameterClass="studentInfo.StTuitionDataBean">
+		delete from tuition where num=#num#
+	</delete>
+	
+	
+	<select id="getArticleCountDropClass" resultClass="int" parameterClass="String">
+		select count(*) from dropclass where studentnum=#studentnum#
+	</select>
+	
+	<select id="listDropClass" resultClass="studentInfo.StudentDropClassBean" parameterClass="String">
+		select * from dropclass where studentnum=#studentnum#
+	</select>
+	
+	<select id="existClassCode" resultClass="String" parameterClass="java.util.HashMap">
+		select classcode from dropclass where studentnum=#studentnum# and classcode=#classcode#
+	</select>
+	
+	<insert id="dropClass" parameterClass="studentInfo.StudentDropClassBean">
+		insert into dropclass values(
+			#studentnum#,
+			#classcode#,
+			#classname#,
+			#proname#,
+			#semester#,
+			#year#,
+			#credit#,
+			#major#,
+			#score#,
+			#state#,
+			sysdate
+		)
+		
+	</insert>
+	
+	<select id="getArticleCountScholar" resultClass="int" parameterClass="String">
+		select count(*) from scholarship where studentnum=#studentnum#
+	</select>
+	
+	<select id="scholarshipList" resultClass="studentInfo.StScholarship" parameterClass="String">
+		select * from scholarship where studentnum=#studentnum#
+	</select>
+	
+	
+	
+	
+</sqlMap>

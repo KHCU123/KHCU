@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
+<sqlMap>
+
+	<select id="numCheckMemo" resultClass="String">
+			select max(num) from memo
+	</select>
+	
+	<insert id="insertMemo" parameterClass="java.util.Map">
+		insert into memo(num,sender,addressee,message,ref,memoType,reg_date) 
+		values(#num#,#sender#,#addressee#,#message#,#ref#,#memoType#,sysdate)		
+	</insert>
+	
+	<select id="newMemoSearch" resultClass="WebMemo.MemoDataBean" parameterClass="java.util.Map">
+			select * from memo where addressee=#addressee# and memoType=#memoType#
+			 and  reg_date between (sysdate - 1/(24*60)) and sysdate
+	</select>
+	
+	<select id="newMemoSearchCount" resultClass="int" parameterClass="java.util.HashMap">
+			 select count(*) from memo where addressee=#addressee# and memoType=#memoType#
+			 and reg_date between (sysdate - 1/(24*60)) and sysdate
+	</select>	
+	
+	<update id="memoReadCountUpdate" parameterClass="WebMemo.MemoDataBean">
+		update memo set readCount=readCount+1 where num=#num#
+	</update>
+	
+	<select id="getMyMemoCount" resultClass="int" parameterClass="java.util.Map">
+   		select count(*) from memo where addressee=#addressee# 
+   </select>
+   
+   <select id="getArticleMyMemo" resultClass="WebMemo.MemoDataBean" parameterClass="java.util.Map">
+	      select num,sender,addressee,message,memoType,ref,readCount,reg_date,r 
+	      from (select num,sender,addressee,message,memoType,ref,readCount,reg_date,rownum r 
+	      from (select num,sender,addressee,message,memoType,ref,readCount,reg_date
+	      from memo where addressee=#addressee# order by reg_date desc) ) where r>=#startRow# and <![CDATA[r<=#endRow#]]> 
+	</select>
+	
+	<select id="getMemoContent" resultClass="WebMemo.MemoDataBean" parameterClass="WebMemo.MemoDataBean">
+			select * from memo where num=#num#
+	</select>
+
+</sqlMap>

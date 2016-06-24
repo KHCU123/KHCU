@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="Author" content="Visicom Media Inc."/>
+    <!-- inj-index -->
+    <title>New Tab</title>
+
+    <link href="../fonts/mystart-font/mystart-font.css" rel="stylesheet" type="text/css"/>
+    <link href="../fonts/opensans/opensans.css" rel="stylesheet" type="text/css"/>
+    <link href="css/main.css" rel="stylesheet" type="text/css"/>
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+
+</head>
+<body>
+    <div id="layer-wallpapers-image"></div>
+
+    <div id="layer-wallpapers-info">
+        <div class="wp_infos">
+            <ul id="wallpapers-info-box-footer"><!--
+                --><li id="btn-wallpaper-favorite" title="Add to favorite"></li><!--
+                --><li id="btn-wallpaper-facebook" title="Share on Facebook"></li><!--
+                --><li id="btn-wallpaper-twitter" title="Share on Twitter"></li><!--
+                --><li id="btn-wallpaper-email" title="Share via email"></li><!--
+            --></ul>
+            <h3></h3>
+            <p class="texts"><span class="description"></span><span class="notice"></span></p>  
+        </div>
+        <div class="searchkeywords">
+                <div></div>
+        </div>
+    </div>
+
+    <div id="layer-welcome">
+        <div class="valign">
+            <h1>Your journey begins here,<br/>start it beautifully.</h1>
+            <h3>Hey there, what&apos;s your name?</h3>
+            <p>
+                <input type="text" maxlength="20" autocomplete="off"/>
+                <span class="btn-skip">Skip</span>
+            </p>
+        </div>
+    </div>
+
+    <div class="layer-content">
+        <div id="welcome-greeting-message"><span></span><input type="text" maxlength="20" autocomplete="off"/></div>
+
+        <div id="module-logo"><div class="logo"></div></div>
+
+        <div id="module-search">
+            <input type="text" placeholder="Search the web" autocomplete="off"/>
+            <div id="btn-search"></div>
+            <ul></ul>
+        </div>
+        
+        <div id="module-todolist">
+            <div class="todolist contentbox">
+                <div class="boxheader">
+                    <ul><li class="boxtitle">To Do &nbsp;<span></span></li></ul>
+                </div>
+                
+                <div class="btn-close">_</div>
+
+                <div class="boxlist">
+                    <div class="todonotice"><span class="icon"></span><h3></h3><p></p></div>
+                    <ul></ul>
+                </div>
+
+                <div class="boxfooter">
+                    <input type="text" placeholder="Enter a new task" autocomplete="off"/>
+                    <div id="btn-todoform"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="box-links">
+            <div>
+                <div>
+                    <div id="module-most-visited" class="lst-links">
+                        <h3><span>Most Visited</span></h3>
+                        <ul></ul>
+                    </div>
+                    <div id="module-recently-closed" class="lst-links">
+                        <h3><span>Recently Closed</span></h3>
+                        <ul></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <ul id="box-footer"><!--
+            --><!--li id="btn-bg-pick" title="Change background image"></li--><!--
+            --><li id="btn-bg-info" title="Show background information"><span></span></li><!--
+            --><li id="btn-wallpaper" class="btn-default-state" title="Change your background"><span></span></li><!--
+            --><li id="btn-music" title="Play Chillout Music"><span>Play Chillout Music</span></li><!--
+            --><li id="btn-music-c" class="btn-default-state" title="Play Chillout Music"><span></span></li><!--
+            --><li id="btn-todolist" class="btn-default-state" title="To Do task"><span></span><em id="taskscount">0</em></li><!--
+            --><li id="btn-socialfeeds" class="btn-default-state" title="Social live feed"><span></span></li><!--
+            --><li id="btn-rate" class="btn-default-state" title="Rate this App"><span></span></li><!--
+            --><li id="btn-share" class="btn-default-state" title="Share this App"><span></span></li><!--
+            --><ul id="box-share"><!--
+                --><li id="btn-share-facebook" class="btn-default-state" title="Share on Facebook"><span></span></li><!--
+                --><li id="btn-share-twitter" class="btn-default-state" title="Share on Twitter"><span></span></li><!--
+                --><li id="btn-share-email" class="btn-default-state" title="Share via email"><span></span></li><!--
+            --></ul><!--
+        --></ul>
+
+        <div id="social-feed-box">
+            <div>
+                <div class="header">
+                    <div class="btn-close">_</div>
+                    <h3></h3>
+                    <ul>
+                        <li id="btn-social-facebook"></li>
+                        <li id="btn-social-twitter"></li>
+                        <li id="btn-social-youtube"></li>
+                    </ul>
+                </div>
+                <div class="feedlist">
+
+                </div>
+                <div class="resizebleH ui-resizable-handle ui-resizable-s"><div><span></span><span></span><span></span><span></span><span></span></div></div>
+            </div>
+        </div>
+
+        <div id="box-slider">
+            <ul class="slider-nav"><!--
+                --><li id="btn-tab-livefeeds" data-tab="live_feeds" class="left"><span>LIVE FEEDS</span><i></i></li><!--
+                --><li id="btn-tab-apps"      data-tab="apps"       class="left"><span>APPS</span><i></i></li><!--
+                --><li id="btn-tab-bookmarks" data-tab="bookmarks"  class="left"><span>BOOKMARKS</span><i></i></li><!--
+                --><li id="btn-tab-settings"  data-tab="settings"   class="right"><span></span><i></i></li><!--
+            --></ul>
+
+            <div id="box-slider-content">
+                <div id="tab-livefeeds" data-tab="live_feeds" class="slider-boxed"><ul class="root"></ul></div>
+                <div id="tab-apps"      data-tab="apps"       class="slider-boxed"></div>
+                <div id="tab-bookmarks" data-tab="bookmarks"  class="slider-boxed"></div>
+                <div id="tab-settings"  data-tab="settings"   class="slider-boxed">
+                    <ul id="tab-settings-list">
+                        <!--li class="item pin">Pin<div class="combobox"><ul></ul></div></li-->
+
+                        <li class="item logo">Logo<div class="toggler"></div></li>
+
+                        <li class="item welcome">Greetings<div class="toggler"></div></li>
+                        <!--li class="sub-item welcome-name"><div class="change-your-name"><input type="text" maxlength="20" autocomplete="off" placeholder="Change your name" /></div></li-->
+
+                        <li class="item search">Search<div ></div></li>
+                        <li class="sub-item search-engines"><div data-search-id="default" class="radio search-engine search-engine-default">Yahoo!</div></li>
+                        
+                        <li class="item apps">Apps<div class="toggler"></div><div class="pin"></div></li>
+
+                        <li class="item bookmarks">Bookmarks<div class="toggler"></div><div class="pin"></div></li>
+
+                        <li class="item livefeeds">Live feed<div class="toggler"></div><div class="pin"></div></li>
+
+                        <li class="item mostvisited">Most visited<div class="toggler"></div></li>
+                        <li class="sub-item mostvisited-restore" >Restore all</li>
+
+                        <li class="item recentlyclosed">Recently closed<div class="toggler"></div></li>
+                        <li class="sub-item recentlyclosed-clear">Clear all</li>
+
+                        <li class="item carousel">Carousel<div class="toggler"></div></li>
+
+                        <li class="item musicplayer">Chillout music<div class="toggler"></div></li>
+                        
+                        <li class="item todolist">Todo list<div class="toggler"></div></li>
+
+                        <li class="item socialfeeds">Social live feed<div class="toggler"></div></li>
+
+                        <li class="item clock">Clock<div class="toggler"></div></li>
+                        <li class="sub-item clock-hour"><div class="radio clock-hour-12">12-hour</div><div class="radio clock-hour-24">24-hour</div></li>
+
+                        <li class="item weather">Weather<div class="toggler"></div></li>
+
+                    </ul>
+                    <footer>
+                        <div class="promo">
+                            <div class="startmenu">
+                                <div>
+                                    <div id="sbtn"><span><a class="mylogo" href="#"></a>Check out our other themed extensions!</span></div>
+                                    <div class="myextlist">
+                                        <span><a class="mylogo" href="#"></a></span>
+                                        <div></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="information">
+                            <span class="links">
+                                <a class="contact">Contact</a>
+                                <a class="privacy">Privacy</a>
+                                <a class="terms">Terms</a>
+                                <a class="copyright-link"><span class="copyright">&nbsp;</span></a>
+                            </span>
+                            <span class="likefollow">
+                                <a id="fblikelink" href="#"><span class="fblike">&nbsp;</span></a>
+                                <a id="twfollowlink" href="#"><span class="twfollow">&nbsp;</span></a>
+                            </span>
+                        </div>
+                    </footer>
+                </div>
+            </div>
+        </div>
+
+        <div id="box-live">
+            <div id="module-weather" class="sub-box">
+                <div class="weather-panels weather-panel-main">
+                    <ul class="weather-header current"><!--
+                        --><li class="feels-like weather-value" data-unit="&deg;"><b>Feels Like</b></li><!--
+                        --><li class="humidity   weather-value" data-unit="%"><b>Humidity</b></li><!--
+                        --><li class="wind       weather-value" data-unit-imperial="mph" data-unit-metric="km/h"><b>Wind</b></li><!--
+                        --><li class="precip     weather-value" data-unit-imperial="in." data-unit-metric="mm"><b>Rain</b></li><!--
+                    --></ul>
+
+                    <ul class="forecast"><!--
+                        --><li><div class="flipper">
+                            <div class="front"><div class="precip-chance weather-value" data-unit="%"></div><div class="high weather-value" data-unit="&deg;"></div><div class="low weather-value" data-unit="&deg;"></div></div>
+                        </div></li><!--
+                        --><li><div class="flipper">
+                            <div class="front"><div class="precip-chance weather-value" data-unit="%"></div><div class="high weather-value" data-unit="&deg;"></div><div class="low weather-value" data-unit="&deg;"></div></div>
+                        </div></li><!--
+                        --><li><div class="flipper">
+                            <div class="front"><div class="precip-chance weather-value" data-unit="%"></div><div class="high weather-value" data-unit="&deg;"></div><div class="low weather-value" data-unit="&deg;"></div></div>
+                        </div></li><!--
+                        --><li><div class="flipper">
+                            <div class="front"><div class="precip-chance weather-value" data-unit="%"></div><div class="high weather-value" data-unit="&deg;"></div><div class="low weather-value" data-unit="&deg;"></div></div>
+                        </div></li><!--
+                        --><li><div class="flipper">
+                            <div class="front"><div class="precip-chance weather-value" data-unit="%"></div><div class="high weather-value" data-unit="&deg;"></div><div class="low weather-value" data-unit="&deg;"></div></div>
+                        </div></li><!--
+                        --><li><div class="flipper">
+                            <div class="front"><div class="precip-chance weather-value" data-unit="%"></div><div class="high weather-value" data-unit="&deg;"></div><div class="low weather-value" data-unit="&deg;"></div></div>
+                        </div></li><!--
+                        --><li class="forecast-weather-value"><div class="forecast-metric forecast-unit">&deg;C</div><div class="forecast-separator">/</div><div class="forecast-imperial forecast-unit">&deg;F</div><ul class="citiesnav"></ul><div class="settings"></div></li><!--
+                    --></ul>
+                </div>
+                
+                <div class="weather-panels weather-panel-cities">
+                    <div>
+                        <div class="errormsg"></div>
+                        <ul class="weather-header cities"><!--
+                            --><li id="module-search-weather">
+                                    <input type="text" placeholder="Enter City, Zip Code" autocomplete="off"/>
+                                    <div id="btn-search-weather"></div>
+                                    <ul></ul>
+                            </li><!--
+                        --></ul>
+
+                        <div class="forecast-container"><ul class="forecast cities"></ul></div>
+
+                        <ul class="weather-footer cities"><!--
+                            --><li class="done"><div>DONE</div></li><!--
+                        --></ul>
+                    </div>
+                </div>
+
+                <div class="live">
+                    <div class="temp weather-value" data-unit-imperial="&deg;F" data-unit-metric="&deg;C" data-unit-mode="sup"></div>
+                    <div class="city"></div>
+                </div>
+            </div>
+            <div id="module-clock" class="sub-box">
+                <div class="time"><span class="hour-12"></span><span class="hour-24"></span></div>
+                <div class="date"></div>
+            </div>
+        </div>
+
+        <div id="module-carousel" ondragstart="return false;" ondrop="return false;">
+            <ul class="header"></ul>
+            <div class="content">
+                <div class="nav-arrow nav-left"></div>
+                <div class="nav-arrow nav-right"></div>
+                <div class="slider"><ul class="slidee"></ul></div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div id="layer-wallpapers-picker">
+        <div class="header"><span class="btn-close"></span></div>
+        <div class="headernav">
+            <span class="nav-config" data-index="3">Settings</span>
+            <ul class="nav"><!--
+                --><li class="nav-library selected" data-index="0">Library</li><!--
+                --><li class="nav-favorite"         data-index="1">Favorites</li><!--
+                --><li class="nav-myimage"       data-index="2">My&nbsp;Image</li><!--
+            --></ul>
+        </div>
+
+        <div class="slider">
+            <div class="slidee">
+                <div class="slide-library">
+                    <ul class="image-list" data-none="No images in library."></ul>
+                </div>
+
+                <div class="slide-favorite ">
+
+                    <div class="favoritesnotice">
+                        <span class="icon displayblock"></span>
+                        <h2>You don't have any favorites yet!</h2>
+                        <p>Like photos to add them to your favorites.</p>
+                    </div>
+
+                    <ul class="image-list" data-none="No favorited images."></ul>
+                </div>
+
+                <div class="slide-preference">
+                    <div class="bg">
+                        <h3>Open New Tab with</h3>
+                        <ul class="options">
+                            <li class="opt-lib selected">Random image from library</li>
+                            <li class="opt-fav">Random image from favorites</li>
+                            <li class="opt-myimg">Only my image</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="slide-myimage" data-old="">
+                    
+                    <div class="bg" id ="userimgpreview">
+                        <div class="content">
+                            <div class="drop-area" id ="userimg-droparea">
+                                <div class="uploadscreen">
+                                    <span class="uploadicon"></span>
+                                    <h3>Drag and drop</h3>
+                                    <p>your image here to upload</p>
+                                    <span class="smalltext">JPG PNG & BMP</span>
+                                </div>
+
+                                <div class="errormsg">
+                                    <span class="erroricon"></span>
+                                    <p class="typeerror">The file you are trying to upload is not supported.<br>Please upload JPG PNG or BMP only.</p>
+                                    <p class="sizeerror">For better results please upload an image that matches your screen resolution. Image must be at least 1024 x 600 pixels.</p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="uploadButons">
+                         <div class="upload">Browse your library<input type="file" name="userupload" id="userupload"/></div><span>OR</span>
+                    </div>
+
+                    <ul class="imagebtns"><!--
+                        --><li><a class="Btnreplace">Replace</a></li><!--
+                        --><li><a class="Btndelete">Delete</a></li><!--
+                    --></ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div id="layer-share-email">
+        <div class="cell">
+            <div class="content">
+                <h3 class="title done">Your email has been sent. Thank you!<i class="btn-close"></i></h3>
+                <h3 class="title form"><em>Share via Email</em><i class="btn-close"></i></h3>
+                <div class="section form">
+                    <div class="field from" data-label="From:"><input type="text" placeholder="Your email" maxlength="100"/></div>
+                    <div class="field to" data-label="To:"><input type="text" placeholder="Your friend's email" maxlength="100"/><div class="clear"></div></div>
+                    <div class="usermsg"><textarea placeholder="Optional message"></textarea></div>
+                    <div class="imgprev"><img id ="wallpreview"></div>
+                    <div class="body"><span class="mylogo"></span><h3></h3><p></p><div class="clear"></div></div>
+                    <div class="buttons"><!--
+                        --><div class="btn-send"><span>Send</span></div><!--
+                    --></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="../lib/js/proto.js"></script>
+    <script src="../lib/js/require-config.js"></script>
+    <script data-main="newtab/js/index" src="../lib/vendor/require.js"></script>
+</body>
+</html>

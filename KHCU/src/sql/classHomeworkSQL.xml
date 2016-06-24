@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
+<sqlMap>
+
+	<select id="getArticleCounterHomeWork" resultClass="int" parameterClass="String">
+		select count(*) from $classHomework$
+	</select>
+
+	<select id="getArticlesHomeWork" resultClass="classRoom.ClassHwDataBean" parameterClass="java.util.Map">
+		select num,type,classcode,title,content,end_date,reference_name,reference_path,reg_date,readcount,r 
+		from (select num,type,classcode,title,content,end_date,reference_name,reference_path,reg_date,readcount,rownum r 
+		from (select num,type,classcode,title,content,end_date,reference_name,reference_path,reg_date,readcount
+		from $classHomework$ order by num desc) order by num desc) where r>=#startRow# and <![CDATA[r<=#endRow#]]> 
+	</select>
+	
+	<insert id="insertArticleHomeWork" parameterClass="classRoom.ClassHwDataBean">
+		insert into $classHomework$(num,type,classcode,title,content,end_date,reference_name,reference_path,reg_date,readcount) 
+		values($classHomework$_seq.NEXTVAL,#type#,#classcode#,#title#,#content#,#end_date#,#reference_name#,#reference_path#,#reg_date#,#readcount#)
+	</insert>
+
+	<select id="numCheckHomework" parameterClass="String" resultClass="String">
+		select max(num) from $classHomework$
+	</select>
+	
+	<update id="getArticleUpdateHomework" parameterClass="classRoom.ClassHwDataBean">
+		update $classHomework$ set readcount=readcount+1 where num=#num#
+	</update>
+	
+	<select id="getArticleSelectHomeWork" resultClass="classRoom.ClassHwDataBean" parameterClass="classRoom.ClassHwDataBean">
+		select * from $classHomework$ where num=#num#
+	</select>
+	
+	<update id="updateArticleHomeWork" parameterClass="classRoom.ClassHwDataBean">
+		update $classHomework$ set title=#title#, content=#content#, end_date=#end_date# ,
+		reference_name = #reference_name#, reference_path=#reference_path# where num=#num#
+	</update>
+	
+	<delete id="deleteArticleHomeWork" parameterClass="classRoom.ClassHwDataBean">
+		delete from $classHomework$ where num=#num#
+	</delete>
+	
+	<!-- 과제 제출 -->
+	<insert id="submitHomework" parameterClass="classRoom.ClassHwSubmitDataBean">
+		insert into $classSubmitHw$ values(
+			#classcode#,
+			#studentnum#,
+			#score#,
+			#hwtype#,
+			#title#,
+			#submit_name#,
+			#submit_path#,
+			#reg_date#
+		)
+	</insert>
+	
+	<delete id="deleteSubmitHomeWork" parameterClass="classRoom.ClassHwSubmitDataBean">
+		delete from $classSubmitHw$ where hwtype=#hwtype#
+	</delete>
+	
+	<select id="checkSubmitHomeWork" resultClass="classRoom.ClassHwSubmitBean" parameterClass="java.util.Map">
+		select * from $classSubmitHw$ where studentnum = (select stnum from $attendbook$ where stNum = #studentnum#)
+	</select>
+	
+	<select id="getAttendBookStnum" resultClass="AttendBook.AttendBookDataBean" parameterClass="String">
+		select * from $attendBookName$ order by stnum asc
+	</select>
+	
+	<select id="getHomeWorkType" resultClass="String" parameterClass="java.util.Map">
+		select type from $classHomework$ where num=#num#
+	</select>
+	
+	<select id="getJoinAttSubmit" resultClass="classRoom.ClassSubmitListDataBean" parameterClass="java.util.Map">
+		select stnum, stname, hwscore,type, submit_name, submit_path from $attendBookName$ a
+		left join $classSubmitHw$ b
+		on a.stnum = b.studentnum
+		order by stnum asc
+	</select>
+	
+	<select id="countAttendBookSt" resultClass="int" parameterClass="String">
+		select count(*) from $attendBookName$
+	</select>
+	
+	<select id="countSubmitHomeWork" resultClass="int" parameterClass="String">
+		select count(*) from $classSubmitHw$
+	</select>
+	
+	<update id="updateSubmitHwScore" parameterClass="java.util.Map">
+		update $classSubmitHw$ set hwscore=#hwscore# where studentnum=#stnum# and type=#type#
+	</update>
+	
+	<update id="updateAttendHwScore" parameterClass="java.util.Map">
+		update $attendBookName$ set hw=#hwscore# where stnum=#stnum#
+	</update>
+</sqlMap>

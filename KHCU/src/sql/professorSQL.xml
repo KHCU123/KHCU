@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
+<sqlMap>
+
+	<select id="pfcollegeCategory" resultClass="College.CollegeDataBean">
+		select distinct colCode, colName from college order by colCode asc
+	</select>
+	
+	<select id="pfcollegeCategory2" resultClass="College.CollegeDataBean" parameterClass="String">
+		select * from college where colCode=(select distinct(colCode) from college where colName=#colName# ) order by colCode asc
+	</select>
+
+
+	<select id="professorNum1" resultClass="int" parameterClass="String">
+		select distinct colCode from college where colName=#colName#
+	</select> 
+	
+	<select id="professorNum2" resultClass="int" parameterClass="String">
+		select distinct majCode from college where majName=#majName#
+	</select> 
+	
+	<select id="checkProfessorNum" resultClass="int" parameterClass="String">
+		select count(proNum) from professorCard where proNum in #proNum# 
+	</select>
+	
+	
+	<select id="checkProfessorNum2" resultClass="int" parameterClass="String">
+		select substr(proNum,-4) from professorCard where proNum in proNum
+	</select>
+   
+   
+   	<delete id="deleteArticleProCard" parameterClass="professorInfo.ProfessorDataBean">
+		delete from professorCard where proNum=#proNum#
+	</delete>
+	
+	<select id="updateGetArticleProCard" resultClass="professorInfo.ProfessorDataBean" parameterClass="professorInfo.ProfessorDataBean">
+		select * from professorCard where proNum =#proNum#
+	</select>
+	
+	<update id="updateArticleProCard" parameterClass="professorInfo.ProfessorDataBean">
+		update professorCard set proPw=#proPw#,proPostcode=#proPostcode#,proAddress1=#proAddress1#,proAddress2=#proAddress2#,proPhone=#proPhone#,proEmail=#proEmail#,
+		proProfileName=#proProfileName#,proProfilePath=#proProfilePath#,proFacebookId=#proFacebookId# where proNum=#proNum#
+	</update>
+	
+	<update id="updateProfbid" parameterClass="professorInfo.ProfessorDataBean">
+		update professorCard set proFacebookId=#proFacebookId# where proNum=#proNum#
+	</update>
+	
+	<update id="updateStateProCard" parameterClass="professorInfo.ProfessorDataBean">
+		update professorCard set proState=#proState#,proReg_date=#proReg_date# where proNum=#proNum#
+	</update>
+	
+	<select id="getArticleCountProCard" resultClass="int">
+		select count(*) from professorCard
+	</select>
+
+	<select id="getArticlesProCard" resultClass="professorInfo.ProfessorDataBean" parameterClass="java.util.Map">
+		select proNum,proPw,proName,proJumin1,proJumin2,proAddress1,proAddress2,proPostcode,proPhone,proProfileName,proProfilePath,proCollege,proMajor,proEmail,proState,proReg_date,r 
+		from (select proNum,proPw,proName,proJumin1,proJumin2,proAddress1,proAddress2,proPostcode,proPhone,proProfileName,proProfilePath,proCollege,proMajor,proEmail,proState,proReg_date,rownum r 
+		from (select proNum,proPw,proName,proJumin1,proJumin2,proAddress1,proAddress2,proPostcode,proPhone,proProfileName,proProfilePath,proCollege,proMajor,proEmail,proState,proReg_date
+		from professorCard order by proNum desc) order by proNum desc) where r>=#startRow# and <![CDATA[r<=#endRow#]]> 
+	</select>
+   
+   <insert id="insertArticleProCard" parameterClass="professorInfo.ProfessorDataBean">
+		insert into professorCard(proNum,proPw,proName,proJumin1,proJumin2,proAddress1,proAddress2,proPostcode,proPhone,proProfileName,proProfilePath,proCollege,proMajor,proEmail,proState,proReg_date,proFacebookId) 
+		values(#proNum#,#proPw#,#proName#,#proJumin1#,#proJumin2#,#proAddress1#,#proAddress2#,#proPostcode#,#proPhone#,#proProfileName#,#proProfilePath#,#proCollege#,#proMajor#,#proEmail#,#proState#,sysdate,#proFacebookId#)
+	</insert>
+	
+	<select id="getProfessorInfo" resultClass="professorInfo.ProfessorDataBean" parameterClass="professorInfo.ProfessorDataBean">
+		select * from professorCard where proNum=#proNum#
+	</select>
+   
+
+</sqlMap>
+   

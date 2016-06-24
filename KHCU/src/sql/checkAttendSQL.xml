@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
+<sqlMap>
+	<insert id="insertAttend" parameterClass="AttendBook.CheckAttendDataBean">
+		insert into $checkAttend$(classcode,stnum,entrance_date,attendcheck,end_check)
+		values(#classcode#,#stnum#,#entrance_date#,#attendcheck#,#end_check#)
+	</insert>
+	
+	<select id="checkAttendBookStnum" resultClass="int" parameterClass="java.util.Map">
+		select count(*) from $attendBookName$ where stnum=#stnum# 
+	</select>
+	
+	<select id="checkAttendCheckStnum" resultClass="int" parameterClass="java.util.Map">
+		select count(*) from $attendCheck$ where stnum=#stnum# and entrance_date between #today# and #nextday#
+	</select>
+
+	<update id="updateCheckAttend" parameterClass="AttendBook.CheckAttendDataBean">
+		update $checkAttend$ set entrance_date=#entrance_date#, attendcheck=#attendcheck#, end_check=#end_check#
+		where classcode=#classcode# and stnum=#stnum#
+	</update>
+	
+	<select id="checkAttendBookSt" resultClass="AttendBook.CheckAttendDataBean" parameterClass="java.util.Map">
+		select * from $checkAttend$ where entrance_date between #entrance_date# and #sysday# 
+	</select>
+	
+	<insert id="insertLectureStart" parameterClass="classRoom.CrListenLiveDataBean">
+		insert into $crListenRoom$(classcode, lecture_start, lecture_end)
+		values(#classcode#, #lecture_start#, #lecture_end#)
+	</insert>
+	
+	<select id="getLecture_time" resultClass="String" parameterClass="java.util.Map">
+		select max(lecture_start) from $crListenRoom$ where lecture_start between #lecture_start# and #sysday#
+	</select>
+	
+	<update id="updateLectureEnd" parameterClass="java.util.Map">
+		update $crListenRoom$ set lecture_end=#sysday# where lecture_start like #today#
+	</update>
+	
+	<select id="getCrListenWeek" resultClass="int" parameterClass="String">
+		select count(*) from $crListenRoom$
+	</select> 
+	
+	<update id="updateCrAttendBook" parameterClass="java.util.Map">
+		update $attendBookName$ set w$week$ = #end_check# where stnum=#stnum#
+	</update>
+	
+	<select id="getCountAttendBookSt" parameterClass="java.util.Map" resultClass="int">
+		select count(*) from $attendBookName$
+	</select>
+	
+	<select id="getCountAttendCheckToday" parameterClass="java.util.Map" resultClass="int">
+		select count(*) from $attendCheck$ where entrance_date between #today# and #sysday#
+	</select>
+	
+	<select id="getAttendCheckToday" parameterClass="java.util.Map" resultClass="AttendBook.CheckAttendDataBean">
+		select * from $attendCheck$ where entrance_date between #today# and #sysday#
+	</select>
+	
+	<select id="getLectureStart" parameterClass="String" resultClass="java.util.Date">
+		select max(lecture_start) from $crListenRoom$
+	</select>
+	
+	<insert id="insertAttendMessage" parameterClass="java.util.Map">
+		insert into $attendMessage$(stnum,classcode,recMessage,rec_time,check_num)
+		values(#stnum#,#classcode#,#recMessage#,#rec_time#,#check_num#)
+	</insert>
+	
+	<update id="updateEndCheck" parameterClass="java.util.Map">
+		update $checkAttend$ set end_check = #end_check# where stnum=#stnum# and entrance_date between #today# and #sysday#
+	</update>
+	
+	<select id="getCountMessage" parameterClass="java.util.Map" resultClass="int">
+		select count(*) from $attendMessage$ where stnum=#stnum# and rec_time between #today# and #sysday#
+	</select>
+	
+	<select id="getRecentlyMessage" parameterClass="java.util.Map" resultClass="java.util.Date">
+		select max(rec_time) from $attendMessage$ where stnum=#stnum# and rec_time between #today# and #sysday#
+	</select>
+	
+	<select id="getCountMessage2" parameterClass="java.util.Map" resultClass="int">
+		select count(check_num) from $attendMessage$ 
+		where rec_time = (select max(rec_time) from $attendMessage$ 
+		where stnum=#stnum# and rec_time between #today# and #sysday#) and stnum=#stnum#
+	</select>
+	
+	<select id="getRecenltyMessage2" parameterClass="java.util.Map" resultClass="int">
+		select check_num from $attendMessage$ where rec_time = (select max(rec_time) from $attendMessage$ 
+		where stnum=#stnum# and rec_time between #today# and #sysday#) and stnum=#stnum#
+	</select>
+	
+	<update id="checkAttMessage" parameterClass="java.util.Map">
+		update $attendMessage$ set check_num = 1 where stnum = #stnum# 
+		and rec_time = (select max(rec_time) from $attendMessage$ where stnum=#stnum#) 
+	</update>
+	
+	<select id="getCountTodayStnum" parameterClass="java.util.Map" resultClass="int">
+		select count(check_num) from $attendMessage$  where stnum=#stnum# and rec_time between #today# and #sysday#
+	</select>
+	
+	
+</sqlMap>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
+<sqlMap>
+
+	<select id="loginCheckStudent" resultClass="int" parameterClass="java.util.Map">
+		select count(*) from studentcard where studentnum=#loginNum# and pw=#loginPw#
+	</select>
+	<select id="loginCheckStaff" resultClass="int" parameterClass="java.util.Map">
+		select count(*) from staffCard where staffNum=#loginNum# and staffPw=#loginPw#
+	</select>
+	<select id="loginCheckProf" resultClass="int" parameterClass="java.util.Map">
+		select count(*) from professorCard where ProNum=#loginNum# and ProPw=#loginPw#
+	</select>
+	
+	<select id="findIdStudent" resultClass="String" parameterClass="java.util.Map">
+		select studentnum from studentcard where stname=#findName# and stjumin1=#findBirth#
+	</select>
+	<select id="findIdStaff" resultClass="String" parameterClass="java.util.Map">
+		select staffNum from staffCard where staffName=#findName# and staffJumin1=#findBirth#
+	</select>
+	<select id="findIdProf" resultClass="String" parameterClass="java.util.Map">
+		select proNum from professorCard where proName=#findName# and proJumin1=#findBirth#
+	</select>
+	
+	<select id="findPwStudent" resultClass="String" parameterClass="java.util.Map">
+		select pw from studentcard where stname=#findName# and stjumin1=#findBirth# and studentnum=#findNum#
+	</select>
+	<select id="findPwStaff" resultClass="String" parameterClass="java.util.Map">
+		select staffPw from staffCard where staffName=#findName# and staffJumin1=#findBirth# and staffNum=#findNum#
+	</select>
+	<select id="findPwProf" resultClass="String" parameterClass="java.util.Map">
+		select proPw from professorCard where proName=#findName# and proJumin1=#findBirth# and proNum=#findNum#
+	</select>
+	
+	<select id="sessionIdStudent" resultClass="studentInfo.StudentDataBean" parameterClass="String">
+		select * from studentcard where studentnum=#memId#
+	</select>
+	<select id="sessionIdStaff" resultClass="StaffCard.StaffCardDataBean" parameterClass="String">
+		select * from staffCard where staffNum=#memId#
+	</select>
+	<select id="sessionIdProf" resultClass="professorInfo.ProfessorDataBean" parameterClass="String">
+		select * from professorCard where proNum=#memId#
+	</select>
+	
+</sqlMap>

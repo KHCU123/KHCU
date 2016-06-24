@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
+<sqlMap>
+
+	<insert id="classInput" parameterClass="Classes.ClassDataBean">
+		insert into classes values(
+				#classCode#,#classType#,#classTime#,#className#,
+				#pfName#,#pfNum#,#maxNum#,#semester#,#credit#,#college#,
+				#major#,#classGrade#,#plan_score#,#plan_goal#,
+				#plan_book#,#plan_w1#,#plan_w2#,#plan_w3#,
+				#plan_w4#,#plan_w5#,#plan_w6#,#plan_w7#,
+				#plan_w8#,#plan_w9#,#plan_w10#,#plan_w11#,
+				#plan_w12#,#plan_w13#,#plan_w14#,#plan_w15#,
+				#plan_w16#,sysdate,#state#,#people#
+		)
+	</insert>
+
+
+	<select id="getArticleClasses" resultClass="Classes.ClassDataBean" parameterClass="java.util.Map">
+	      select classCode,classType,classTime,className,pfName,maxNum,semester,credit,college,major,classGrade,plan_score,plan_goal,plan_book,
+	      plan_w1,plan_w2,plan_w3,plan_w4,plan_w5,plan_w6,plan_w7,plan_w8,plan_w9,plan_w10,plan_w11,plan_w12,plan_w13,plan_w14,plan_w15,plan_w16,state,people,r 
+	      from (select classCode,classType,classTime,className,pfName,maxNum,semester,credit,college,major,classGrade,plan_score,plan_goal,plan_book,
+	      plan_w1,plan_w2,plan_w3,plan_w4,plan_w5,plan_w6,plan_w7,plan_w8,plan_w9,plan_w10,plan_w11,plan_w12,plan_w13,plan_w14,plan_w15,plan_w16,state,people,rownum r 
+	      from (select classCode,classType,classTime,className,pfName,maxNum,semester,credit,college,major,classGrade,plan_score,plan_goal,plan_book,
+	      plan_w1,plan_w2,plan_w3,plan_w4,plan_w5,plan_w6,plan_w7,plan_w8,plan_w9,plan_w10,plan_w11,plan_w12,plan_w13,plan_w14,plan_w15,plan_w16,state,people
+	      from classes order by pfName) order by pfName ) where r>=#startRow# and <![CDATA[r<=#endRow#]]> 
+	</select>
+   
+   <select id="getArticleClassesCount" resultClass="int" parameterClass="Classes.ClassDataBean">
+   		select count(*) from classes 
+   </select>
+   
+   <select id="getClassPlan" resultClass="Classes.ClassDataBean" parameterClass="Classes.ClassDataBean">
+   	select classCode,plan_score,plan_goal,plan_book,plan_w1,plan_w2,plan_w3,plan_w4,plan_w5,plan_w6,plan_w7,plan_w8,plan_w9,
+   	plan_w10,plan_w11,plan_w12,plan_w13,plan_w14,plan_w15,plan_w16,state from classes where classCode=#classCode#
+   </select>
+   
+   <select id="getStClassTime" resultClass="Classes.ClassDataBean" parameterClass="String">
+   		select * from classes where classCode in (select classCode from registerclass where studentnum=#studentnum#)
+   </select> 
+   
+   <select id="getClassTime" resultClass="String" parameterClass="String">
+   		select classTime from classes where classCode=#classCode#
+   </select>   
+
+   <select id="getAllTimeTable" resultClass="Classes.ClassDataBean" parameterClass="Classes.ClassDataBean">
+   		select * from classes where pfNum=#pfNum#
+   </select>
+   
+   <select id="getPfTimeTable" resultClass="Classes.ClassDataBean" parameterClass="Classes.ClassDataBean">
+   		select classCode,className,classTime,semester,classGrade from classes where pfNum=#pfNum# and classType=1
+   </select>
+   
+   <select id="getPfclassAsGrade" resultClass="Classes.ClassDataBean" parameterClass="java.util.Map">
+   		select * from classes where pfNum=#pfNum# 
+   		and classGrade=#classGrade# and semester=#semester#
+   </select>
+   
+   <select id="getStclassAsGrade" resultClass="Classes.ClassDataBean" parameterClass="java.util.Map">
+   		select * from classes where classGrade=#classGrade# and semester=#semester# 
+   		and classCode in (select classCode from registerclass where studentnum=#studentnum#) 
+   </select>
+   
+   <select id="getPfClassTimeInfo" resultClass="int" parameterClass="Classes.ClassDataBean">
+   		select count(*) from classes where pfNum=#pfNum# and classTime=#classTime#
+   </select>
+   
+   <select id="classNum1" resultClass="int" parameterClass="String">
+		select distinct colCode from college where colName=#colName#
+	</select> 
+	
+	<select id="classNum2" resultClass="int" parameterClass="String">
+		select distinct majCode from college where majName=#majName#
+	</select> 
+	
+	<select id="checkClassNum" resultClass="int" parameterClass="String">
+		select count(classCode) from classes where classCode in #classCode# 
+	</select>
+	
+	
+	<select id="checkClassNum2" resultClass="int" parameterClass="String">
+		select substr(classCode,-4) from classes where classCode in classCode
+	</select>
+	
+	<update id="updatePlanner" parameterClass="Classes.ClassDataBean">
+		update classes set plan_score=#plan_score#,plan_goal=#plan_goal#,plan_book=#plan_book#,
+		plan_w1=#plan_w1#,plan_w2=#plan_w2#,plan_w3=#plan_w3#,plan_w4=#plan_w4#,plan_w5=#plan_w5#,plan_w6=#plan_w6#,plan_w7=#plan_w7#,plan_w8=#plan_w8#,plan_w9=#plan_w9#,
+   		plan_w10=#plan_w10#,plan_w11=#plan_w11#,plan_w12=#plan_w12#,plan_w13=#plan_w13#,plan_w14=#plan_w14#,plan_w15=#plan_w15#,plan_w16=#plan_w16# where classCode=#classCode#
+	</update>
+	
+	<update id="updateClassState" parameterClass="Classes.ClassDataBean">
+		update classes set state=#state# where classCode=#classCode#
+	</update>    
+	
+  <select id="getInfoClass" resultClass="Classes.ClassDataBean" parameterClass="Classes.ClassDataBean">
+   		select * from classes where classCode=#classCode#
+   </select> 
+
+
+</sqlMap>
+   

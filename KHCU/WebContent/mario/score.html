@@ -1,0 +1,64 @@
+<HTML>
+<HEAD>
+<TITLE>No TITLE</TITLE>
+<SCRIPT LANGUAGE="JavaScript">
+<!--
+ systm=""
+ ver=navigator.appVersion
+ Nv=ver.charAt(0)
+ len=ver.length
+ for(iln=0;iln<len;iln++) if(ver.charAt(iln)=="(") break
+ systm = ver.charAt(iln+1).toUpperCase()
+
+function clk(){
+ if (Nv>=4){
+  if (systm == "C"){
+   parent.main.restarter.style.posTop = 100
+   parent.main.document.forms[1].elements[0].click()
+  }else{
+   parent.main.focus()
+  }
+ }
+}
+
+if (Nv>=4){
+ if (systm!="C"){
+  document.onmousedown = clk
+  document.captureEvents(Event.MOUSEDOWN)
+ }
+}
+
+//-->
+</SCRIPT>
+</HEAD>
+
+<BODY BGCOLOR="#7B68EE" onclick="clk()">
+<SCRIPT LANGUAGE="JavaScript">
+<!--
+//N3 check
+ if (Nv<4){
+  parent.main.location.href="n3.html"
+ }else{
+  parent.main.location.href="nnie.html"
+ }
+
+//-->
+</SCRIPT>
+
+<FONT STYLE="font-size:24px" COLOR="#CCCC44"><I><B>Marionette 2</B></I></FONT><P>
+<FORM NAME="FORM0">
+SCORE<BR><INPUT TYPE="text" NAME="PY" SIZE=10 VALUE = " " ><P>
+TIME LIMIT<BR><INPUT TYPE="text" NAME="TL" SIZE=10 VALUE = " " ><P>
+</FORM>
+<DIV STYLE='position:absolute; top:220; left:20'>
+<FONT SIZE="-1"><A HREF="http://www1.nisiq.net/~jimmeans/" TARGET="_top">Home Page</A></FONT>
+</DIV>
+<DIV STYLE='position:absolute; top: 260'>
+<FONT SIZE="-1">
+MUSIC by <BR>  <A HREF="http://www.threeweb.ad.jp/~kuge/indexe.html" TARGET="_top">FreeMusicArchive</A>
+</FONT>
+</DIV>
+
+
+</BODY>
+</HTML>

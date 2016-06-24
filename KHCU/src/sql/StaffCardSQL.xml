@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
+<sqlMap>
+	
+	<select id="getArticleCountStaffCard" resultClass="int">
+		select count(*) from staffCard
+	</select>
+
+	<select id="getArticlesStaffCard" resultClass="StaffCard.StaffCardDataBean" parameterClass="java.util.Map">
+		select staffNum,staffPw,staffName,staffJumin1,staffJumin2,staffAddress1,staffAddress2,staffPostcode,staffPhone,staffProfileName,staffProfilePath,staffDep,staffEmail,staffState,staffReg_date,r 
+		from (select staffNum,staffPw,staffName,staffJumin1,staffJumin2,staffAddress1,staffAddress2,staffPostcode,staffPhone,staffProfileName,staffProfilePath,staffDep,staffEmail,staffState,staffReg_date,rownum r 
+		from (select staffNum,staffPw,staffName,staffJumin1,staffJumin2,staffAddress1,staffAddress2,staffPostcode,staffPhone,staffProfileName,staffProfilePath,staffDep,staffEmail,staffState,staffReg_date
+		from staffCard order by staffName asc) order by staffName asc) where r>=#startRow# and <![CDATA[r<=#endRow#]]> 
+	</select>
+
+	<insert id="insertArticleStaffCard" parameterClass="StaffCard.StaffCardDataBean">
+		insert into staffCard(staffNum,staffPw,staffName,staffJumin1,staffJumin2,staffAddress1,staffAddress2,staffPostcode,staffPhone,staffProfileName,staffProfilePath,staffDep,staffEmail,staffState,staffReg_date) 
+		values(#staffNum#,#staffPw#,#staffName#,#staffJumin1#,#staffJumin2#,#staffAddress1#,#staffAddress2#,#staffPostcode#,#staffPhone#,#staffProfileName#,#staffProfilePath#,#staffDep#,#staffEmail#,#staffState#,sysdate)
+	</insert>
+	
+	<delete id="deleteArticleStaffCard" parameterClass="StaffCard.StaffCardDataBean">
+		delete from staffCard where staffNum=#staffNum#
+	</delete>
+	
+	<select id="updateGetArticleStaffCard" resultClass="StaffCard.StaffCardDataBean" parameterClass="StaffCard.StaffCardDataBean">
+		select * from staffCard where staffNum =#staffNum#
+	</select>
+	
+	<update id="updateArticleStaffCard" parameterClass="StaffCard.StaffCardDataBean">
+		update staffCard set staffPw=#staffPw#,staffPostcode=#staffPostcode#,staffAddress1=#staffAddress1#,staffAddress2=#staffAddress2#,staffPhone=#staffPhone#,staffEmail=#staffEmail#,staffProfileName=#staffProfileName#,staffProfilePath=#staffProfilePath# where staffNum=#staffNum#
+	</update>
+	
+	<update id="updateStateStaffCard" parameterClass="StaffCard.StaffCardDataBean">
+		update staffCard set staffState=#staffState#,staffReg_date=#staffReg_date# where staffNum=#staffNum#
+	</update>
+	
+	<select id="checkDepStaffCard" resultClass="String" parameterClass="StaffCard.StaffCardDataBean">
+		select staffDep from staffCard where staffNum=#staffNum#
+	</select>
+	
+	<select id="getArticleStaffCard" resultClass="StaffCard.StaffCardDataBean" parameterClass="StaffCard.StaffCardDataBean">
+		select * from staffCard where staffNum=#staffNum#
+	</select>
+	
+	<select id="checkStaffNum" resultClass="int" parameterClass="String">
+		select count(staffNum) from staffCard where staffNum in #staffNum# 
+	</select>
+	
+	<select id="checkStaffNum2" resultClass="int" parameterClass="String">
+		select substr(staffNum,-4) from staffCard where staffNum in #staffNum#
+	</select>
+	
+	<!-- 장학생 명단 -->
+	<select id="getArticleCountScholarship" resultClass="int">
+		select count(*) from scholarship
+	</select>
+
+	<select id="getArticlesScholarship" resultClass="studentInfo.StScholarship" parameterClass="java.util.Map">
+		select num,studentnum,schtype,money,semester,year,r 
+		from (select num,studentnum,schtype,money,semester,year,rownum r 
+		from (select num,studentnum,schtype,money,semester,year
+		from scholarship order by num asc) order by num asc) where r>=#startRow# and <![CDATA[r<=#endRow#]]> 
+	</select>
+	
+	<select id="checkStudentnum" resultClass="int" parameterClass="String">
+		select count(*) from studentcard where studentnum=#studentnum# 
+	</select>
+	
+	<insert id="insertArticleScholar" parameterClass="studentInfo.StScholarship">
+		insert into scholarship(num,studentnum,schtype,money,semester,year) 
+		values(scholarship_seq.NEXTVAL,#studentnum#,#schtype#,#money#,#semester#,sysdate)
+	</insert>
+	
+	<select id="checkNumScholar" resultClass="int" parameterClass="String">
+		select count(*) from scholarship where studentnum=#studentnum# 
+	</select>
+	
+	<!-- 등록금 현황 -->
+	<insert id="insertStudentTuition" parameterClass="StaffCard.StudentTuitionDataBean">
+		insert into stTuition(num,stnum,stname,styear,stsemester,stcollege,stmajor,stgrade,stmoney,state,reg_date) 
+		values(scholarship_seq.NEXTVAL,#stnum#,#stname#,#styear#,#stsemester#,#stcollege#,#stmajor#,#stgrade#,#stmoney#,#state#,sysdate)
+	</insert>
+	
+	<select id="getCountStudentTuition" resultClass="int">
+		select count(*) from stTuition where state=#state#
+	</select>
+
+	<select id="getStudentTuition" resultClass="StaffCard.StudentTuitionDataBean" parameterClass="java.util.Map">
+		select num,stnum,stname,styear,stsemester,stcollege,stmajor,stgrade,stmoney,state,reg_date,r 
+		from (select num,stnum,stname,styear,stsemester,stcollege,stmajor,stgrade,stmoney,state,reg_date,rownum r 
+		from (select num,stnum,stname,styear,stsemester,stcollege,stmajor,stgrade,stmoney,state,reg_date
+		from stTuition where state=#state# order by num asc) order by num asc) where r>=#startRow# and <![CDATA[r<=#endRow#]]> 
+	</select>
+	
+	<select id="checkStudentTuitionNum" resultClass="int" parameterClass="String">
+		select count(*) from stTuition where stnum=#stnum# 
+	</select>
+	
+	<update id="updateStudentTuition" parameterClass="java.util.HashMap">
+		update stTuition set state=#state#, reg_date=#reg_date# where stnum=#stnum#
+	</update>
+	<!-- 등록 후 학기 변동 -->
+	<update id="updateStudentSemester" parameterClass="java.util.HashMap">
+		update studentcard set stsemester=#semester#, stgrade=#grade# where studentnum=#stnum#
+	</update>
+	
+</sqlMap>

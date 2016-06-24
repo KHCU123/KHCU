@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
+<sqlMap>
+
+	<select id="getArticleCountComBoard" resultClass="int">
+		select count(*) from comBoard
+	</select>
+	
+	<select id="getArticlesComBoard" resultClass="Community.ComBoard.ComBoardDataBean" parameterClass="java.util.Map">
+		select num,category,title,content,reg_date,readcount,r 
+		from (select num,category,title,content,reg_date,readcount,rownum r 
+		from (select num,category,title,content,reg_date,readcount
+		from comBoard order by num desc) order by num desc) where r>=#startRow# and <![CDATA[r<=#endRow#]]> 
+	</select>
+
+	<insert id="insertArticleComBoard" parameterClass="Community.ComBoard.ComBoardDataBean">
+		insert into comBoard(num,category,title,content,reg_date,readcount) 
+		values(comBoard_seq.NEXTVAL,#category#,#title#,#content#,#reg_date#,#readcount#)
+	</insert>
+
+	<select id="numCheckComBoard" resultClass="String">
+		select max(num) from comBoard
+	</select>
+	
+	<update id="getArticleUpdateComBoard" parameterClass="Community.ComBoard.ComBoardDataBean">
+		update comBoard set readcount=readcount+1 where num=#num#
+	</update>
+	
+	<select id="getArticleSelectComBoard" resultClass="Community.ComBoard.ComBoardDataBean" parameterClass="Community.ComBoard.ComBoardDataBean">
+		select * from comBoard where num=#num#
+	</select>
+	
+	<select id="updateGetArticleComBoard" resultClass="Community.ComBoard.ComBoardDataBean" parameterClass="Community.ComBoard.ComBoardDataBean">
+		select * from comBoard where num =#num#
+	</select>
+	
+	<update id="updateArticleComBoard" parameterClass="Community.ComBoard.ComBoardDataBean">
+		update comBoard set category=#category#,title=#title#,content=#content# where num=#num#
+	</update>
+	
+	<delete id="deleteArticleComBoard" parameterClass="Community.ComBoard.ComBoardDataBean">
+		delete from comBoard where num=#num#
+	</delete>
+	
+</sqlMap>

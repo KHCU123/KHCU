@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
+<sqlMap>
+	<select id="getArticleCounterCrQnA" resultClass="int" parameterClass="String">
+		select count(*) from $classQnA$
+	</select>
+
+	<select id="getArticleCrQnA" parameterClass="java.util.Map" resultClass="classRoom.ClassQnADataBean">
+		select num,classcode,writer,title,content,passwd,reg_date,readcount,ref,re_step,re_level,r 
+		from (select num,classcode,writer,title,content,passwd,reg_date,readcount,ref,re_step,re_level,rownum r 
+		from (select num,classcode,writer,title,content,passwd,reg_date,readcount,ref,re_step,re_level
+		from $classQnA$ order by ref desc, re_step asc) order by ref desc, re_step asc) where r>=#startRow# and <![CDATA[r<=#endRow#]]> 
+	</select>
+	
+	<insert id="insertArticleCrQnA" parameterClass="classRoom.ClassQnADataBean">
+		insert into $classQnA$(num,classcode,writer,title,content,passwd,reg_date,readcount,ref,re_step,re_level) 
+		values($classQnA$_seq.NEXTVAL,#classcode#,#writer#,#title#,#content#,#passwd#,#reg_date#,#readcount#,#ref#,#re_step#,#re_level#)
+	</insert>
+	
+	<!-- 검색기능-->
+	<select id="getCountCrQnATitle" resultClass="int" parameterClass="java.util.Map">
+		select count(*) from $classQnA$ where title like '%'||#title#||'%'
+	</select>
+	
+	<select id="getArticlesCrQnATitle" resultClass="classRoom.ClassQnADataBean" parameterClass="java.util.Map">
+	select num,classcode,writer,title,content,passwd,reg_date,readcount,ref,re_step,re_level,r 
+		from (select num,classcode,writer,title,content,passwd,reg_date,readcount,ref,re_step,re_level,rownum r 
+		from (select num,classcode,writer,title,content,passwd,reg_date,readcount,ref,re_step,re_level
+		from $classQnA$ order by ref desc, re_step asc) order by ref desc, re_step asc) where r>=#startRow# and <![CDATA[r<=#endRow#]]>
+		and  title like '%'||#title#||'%' 
+	</select>
+	
+	<!-- 내용+제목 검색 -->
+	<select id="getCountCrQnAAll" resultClass="int" parameterClass="java.util.Map">
+		select count(*) from $classQnA$ where content like '%'||#content#||'%' and title like '%'||#title#||'%' 
+	</select>
+	
+	<select id="getArticlesCrQnAAll" resultClass="classRoom.ClassQnADataBean" parameterClass="java.util.Map">
+	select num,classcode,writer,title,content,passwd,reg_date,readcount,ref,re_step,re_level,r 
+		from (select num,classcode,writer,title,content,passwd,reg_date,readcount,ref,re_step,re_level,rownum r 
+		from (select num,classcode,writer,title,content,passwd,reg_date,readcount,ref,re_step,re_level
+		from $classQnA$ order by ref desc, re_step asc) order by ref desc, re_step asc) where r>=#startRow# and <![CDATA[r<=#endRow#]]>
+		and  content like '%'||#content#||'%' and title like '%'||#title#||'%' 
+	</select>
+	
+	<!-- 글쓴이 -->
+	<select id="getCountCrQnAWriter" resultClass="int" parameterClass="java.util.Map">
+		select count(*) from $classQnA$ where writer = #writer# 
+	</select>
+	
+	<select id="getArticlesCrQnAWriter" resultClass="classRoom.ClassQnADataBean" parameterClass="java.util.Map">
+	select num,classcode,writer,title,content,passwd,reg_date,readcount,ref,re_step,re_level,r 
+		from (select num,classcode,writer,title,content,passwd,reg_date,readcount,ref,re_step,re_level,rownum r 
+		from (select num,classcode,writer,title,content,passwd,reg_date,readcount,ref,re_step,re_level
+		from $classQnA$ order by ref desc, re_step asc) order by ref desc, re_step asc) where r>=#startRow# and <![CDATA[r<=#endRow#]]>
+		and  writer = #writer# 
+	</select>
+	
+	
+	
+	
+	<select id="numCheckCrQnA" parameterClass="String" resultClass="String">
+		select max(num) from $classQnA$
+	</select>
+	
+	<update id="updateRefCrQnA" parameterClass="java.util.Map">
+		update $classQnA$ set re_step=re_step+1 where ref=#ref# and re_step>#re_step#
+	</update>
+	
+	<update id="getArticleUpdateCrQnA" parameterClass="classRoom.ClassQnADataBean">
+		update $classQnA$ set readcount=readcount+1 where num=#num#
+	</update>
+	
+	<select id="getArticleSelectCrQnA" resultClass="classRoom.ClassQnADataBean" parameterClass="classRoom.ClassQnADataBean">
+		select * from $classQnA$ where num=#num#
+	</select>
+	
+	<select id="checkPwCrQnA" resultClass="String" parameterClass="classRoom.ClassQnADataBean">
+		select passwd from $classQnA$ where num=#num#
+	</select>
+	
+	<delete id="deleteArticleCrQnA" parameterClass="classRoom.ClassQnADataBean">
+		delete from $classQnA$ where num=#num#
+	</delete>
+	
+	<delete id="deleteArticleCrQnARef" parameterClass="classRoom.ClassQnADataBean">
+		delete from $classQnA$ where num=#num# and ref=#ref#
+	</delete>
+	
+	<update id="updateArticleCrQnA" parameterClass="classRoom.ClassQnADataBean">
+		update $classQnA$ set title=#title#,content=#content# where num=#num#
+	</update>
+</sqlMap>

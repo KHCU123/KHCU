@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC '-//ibatis.apache.org//DTD Sql Map 2.0//EN' 'http://ibatis.apache.org/dtd/sql-map-2.dtd'>
+<sqlMap>
+	
+	<select id="getArticleCountStudyRoom" resultClass="int">
+		select count(*) from studyRoom
+	</select>
+
+	<select id="getArticlesStudyRoom" resultClass="StudyRoom.StudyRoomDataBean" parameterClass="java.util.Map">
+		select num, roomTitle, passwd, creater, reg_date, r 
+		from (select num, roomTitle, passwd, creater, reg_date, rownum r 
+		from (select num, roomTitle, passwd, creater, reg_date
+		from studyRoom order by num desc) order by num desc) where r>=#startRow# and <![CDATA[r<=#endRow#]]> 
+	</select>
+
+	<insert id="insertArticleStudyRoom" parameterClass="StudyRoom.StudyRoomDataBean">
+		insert into studyRoom(num, roomTitle, passwd, creater, reg_date) 
+		values(studyRoom_seq.NEXTVAL,#roomTitle#,#passwd#,#creater#,sysdate)
+	</insert>
+	
+	<select id="numCheckStudyRoom" resultClass="String">
+		select max(num) from studyRoom
+	</select>
+	
+	<select id="getArticleSelectStudyRoom" resultClass="StudyRoom.StudyRoomDataBean" parameterClass="StudyRoom.StudyRoomDataBean">
+		select * from studyRoom where num=#num#
+	</select>
+	
+	<select id="passwdCheckStudyRoom" resultClass="String" parameterClass="int">
+		select passwd from studyRoom where num=#num#
+	</select>
+	
+</sqlMap>
